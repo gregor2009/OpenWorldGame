@@ -101,7 +101,7 @@ public class EnemyAiTutorial : MonoBehaviour
         anim.SetBool("walk", false);
         anim.SetBool("attack", true);
 
-        transform.LookAt(player);
+        //transform.LookAt(player);
 
 
         if (!alreadyAttacked)
