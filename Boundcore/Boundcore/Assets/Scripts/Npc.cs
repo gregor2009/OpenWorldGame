@@ -26,9 +26,11 @@ public class Npc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponent<Animator>();
         Walking();
+        
     }
 
     // Update is called once per frame
@@ -58,28 +60,21 @@ public class Npc : MonoBehaviour
       
     }
 
-    public void Waving()
-    {
-        print("Wave");
-        anim.SetBool("isWaving", true);
-        inWaveRange = false;
-        StartCoroutine(Waiting());
-    }
+
 
     public IEnumerator Waiting()
     {
         if(!inWaveRange)
         {
          //Wait
-            waitTime = Random.Range(0f, 20f);
-            yield return new WaitForSeconds(waitTime);
             anim.SetBool("isWaving", false);
+            waitTime = Random.Range(3f, 20f);
+            yield return new WaitForSeconds(waitTime);
+            agent.enabled = true;
             Walking();
 
-        }else
-        {
-            Waving();
         }
+       
        
     }
 
@@ -88,11 +83,24 @@ public class Npc : MonoBehaviour
         // Check for Player
         if (other.gameObject.tag == "Player")
         {
-            inWaveRange = true; >
-            Waving();
+            agent.enabled = false;
+            inWaveRange = true; 
+            anim.SetBool("isWaving", true);
+            anim.SetBool("isWalking", false);
+         
+           
  
         }
+        if(other.gameObject.tag != "Player")
+        {
+            print("Waving stopp");
+            agent.enabled = true;
+            StartCoroutine(Waiting());
+            
+        }
     }
+
+
 
    
 }
