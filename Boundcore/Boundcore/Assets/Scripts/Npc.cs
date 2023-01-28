@@ -85,6 +85,7 @@ public class Npc : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {   
+        // Check for Player
         if (other.gameObject.tag == "Player")
         {
             inWaveRange = true; 
