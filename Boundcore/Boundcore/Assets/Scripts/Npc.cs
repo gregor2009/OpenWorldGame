@@ -82,21 +82,19 @@ public class Npc : MonoBehaviour
     { 
         
         //Set Walk Point
+        anim.SetBool("isWalking", false);
         randomZ = Random.Range(-walkPointRange, walkPointRange);
         randomX = Random.Range(-walkPointRange, walkPointRange);
         
         walkPoint = new Vector3(transform.position.x + randomX, 0.0832333f , transform.position.z + randomZ);
 
         //Walk
+
+        agent.SetDestination(walkPoint);
         if(!playerInSightRange)
         {
             anim.SetBool("isWalking", true);
         }
-        agent.SetDestination(walkPoint);
-      
-
-       
-      
     }
 
 
