@@ -88,7 +88,7 @@ public class Npc : MonoBehaviour
         // Check for Player
         if (other.gameObject.tag == "Player")
         {
-            inWaveRange = true; 
+            inWaveRange = true; >
             Waving();
  
         }
