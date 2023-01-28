@@ -91,7 +91,7 @@ public class Npc : MonoBehaviour
            
  
         }
-        if(other.gameObject.tag != "Player")
+        if(other.gameObject.tag == "Player")
         {
             print("Waving stopp");
             agent.enabled = true;
