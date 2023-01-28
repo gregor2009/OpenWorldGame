@@ -16,6 +16,9 @@ public class EnemyAiTutorial : MonoBehaviour
 
     public enemy e;
 
+    public Transform target;
+    public float LookSpeed;
+
  
 
     //Patroling
@@ -96,6 +99,12 @@ public class EnemyAiTutorial : MonoBehaviour
     private void AttackPlayer()
     {
         //Make sure enemy doesn't move
+
+        Vector3 direction = target.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, LookSpeed * Time.deltaTime);
+
+
         agent.SetDestination(transform.position);
         anim.SetBool("run", false);
         anim.SetBool("walk", false);
