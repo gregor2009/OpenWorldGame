@@ -8,6 +8,7 @@ public class Npc : MonoBehaviour
 
     public float randomX;
     public float randomZ;
+    
 
     
     public UnityEngine.AI.NavMeshAgent agent;
@@ -22,7 +23,13 @@ public class Npc : MonoBehaviour
     public float waitTime;
 
 //Waving
-    public bool inWaveRange;
+    public bool playerInSightRange;
+    public float sightRange;
+    public LayerMask whatIsPlayer;
+    public Transform target;
+    public float LookSpeed;
+    public bool Go;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,24 +46,56 @@ public class Npc : MonoBehaviour
         if(transform.position == walkPoint)
         {
             anim.SetBool("isWalking", false);
-        }        
+             // Start Waiting
+             StartCoroutine(Waiting());
+        }     
+
+        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+
+        if(playerInSightRange)
+        {
+            Go = true;
+            agent.enabled = false;
+            anim.SetBool("isWalking", false);
+            anim.SetBool("isWaving", true);
+            
+            Vector3 direction = target.position - transform.position;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, LookSpeed * Time.deltaTime);
+        }  
+
+        if(!playerInSightRange)
+        {
+            agent.enabled = true;
+            anim.SetBool("isWaving", false);
+
+            if(Go)
+            {
+                Go = false;
+                Walking();
+            }
+            
+        } 
     }
 
     public void Walking()
     { 
-        anim.SetBool("isWaving", false);
+        
         //Set Walk Point
         randomZ = Random.Range(-walkPointRange, walkPointRange);
         randomX = Random.Range(-walkPointRange, walkPointRange);
         
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        walkPoint = new Vector3(transform.position.x + randomX, 0.0832333f , transform.position.z + randomZ);
 
         //Walk
-        anim.SetBool("isWalking", true);
+        if(!playerInSightRange)
+        {
+            anim.SetBool("isWalking", true);
+        }
         agent.SetDestination(walkPoint);
+      
 
-        // Start Waiting
-        StartCoroutine(Waiting());
+       
       
     }
 
@@ -64,41 +103,12 @@ public class Npc : MonoBehaviour
 
     public IEnumerator Waiting()
     {
-        if(!inWaveRange)
-        {
-         //Wait
-            anim.SetBool("isWaving", false);
-            waitTime = Random.Range(3f, 20f);
-            yield return new WaitForSeconds(waitTime);
-            agent.enabled = true;
-            Walking();
-
-        }
-       
-       
+        anim.SetBool("isWalking", false);
+        waitTime = Random.Range(3f, 10f);
+        yield return new WaitForSeconds(waitTime);
+        Walking();
     }
 
-    void OnTriggerEnter(Collider other)
-    {   
-        // Check for Player
-        if (other.gameObject.tag == "Player")
-        {
-            agent.enabled = false;
-            inWaveRange = true; 
-            anim.SetBool("isWaving", true);
-            anim.SetBool("isWalking", false);
-         
-           
- 
-        }
-        if(other.gameObject.tag == "Player")
-        {
-            print("Waving stopp");
-            agent.enabled = true;
-            StartCoroutine(Waiting());
-            
-        }
-    }
 
 
 

@@ -2456,6 +2456,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2197268019863922194, guid: 1c7d6ae00d07b9841a5ee562b7127910,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2.8006048
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197268019863922194, guid: 1c7d6ae00d07b9841a5ee562b7127910,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.09540653
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197268019863922194, guid: 1c7d6ae00d07b9841a5ee562b7127910,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.6651926
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197268019863922196, guid: 1c7d6ae00d07b9841a5ee562b7127910,
+        type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 3893294199094009813}
+    - target: {fileID: 2197268019863922196, guid: 1c7d6ae00d07b9841a5ee562b7127910,
+        type: 3}
+      propertyPath: LookSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197268019863922196, guid: 1c7d6ae00d07b9841a5ee562b7127910,
+        type: 3}
+      propertyPath: sightRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197268019863922196, guid: 1c7d6ae00d07b9841a5ee562b7127910,
+        type: 3}
+      propertyPath: whatIsPlayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6812389927998398719, guid: 1c7d6ae00d07b9841a5ee562b7127910,
         type: 3}
       propertyPath: m_RootOrder
@@ -2516,7 +2551,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2197268019863922194, guid: 1c7d6ae00d07b9841a5ee562b7127910, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1c7d6ae00d07b9841a5ee562b7127910, type: 3}
 --- !u!1 &2314872037861288594
 GameObject:
