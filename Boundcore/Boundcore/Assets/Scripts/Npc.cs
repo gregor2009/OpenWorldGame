@@ -72,7 +72,7 @@ public class Npc : MonoBehaviour
             if(Go)
             {
                 Go = false;
-                Walking();
+                StartCoroutine(Waiting());
             }
             
         } 
@@ -83,10 +83,6 @@ public class Npc : MonoBehaviour
         
         //Set Walk Point
         anim.SetBool("isWalking", false);
-        randomZ = Random.Range(-walkPointRange, walkPointRange);
-        randomX = Random.Range(-walkPointRange, walkPointRange);
-        
-        walkPoint = new Vector3(transform.position.x + randomX, 0.0832333f , transform.position.z + randomZ);
 
         //Walk
 
@@ -101,6 +97,10 @@ public class Npc : MonoBehaviour
 
     public IEnumerator Waiting()
     {
+        randomZ = Random.Range(-walkPointRange, walkPointRange);
+        randomX = Random.Range(-walkPointRange, walkPointRange); 
+        walkPoint = new Vector3(transform.position.x + randomX, 0.0832333f , transform.position.z + randomZ);
+
         anim.SetBool("isWalking", false);
         waitTime = Random.Range(3f, 10f);
         yield return new WaitForSeconds(waitTime);
