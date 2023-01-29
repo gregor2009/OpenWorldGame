@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using StarterAssets;
-using UnityEngine.Windows;
+//using UnityEngine.Windows;
+
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -108,6 +109,30 @@ namespace StarterAssets
         private int _animIDBlock;
         private int _animIDAttack;
 
+        //Shoot
+        public Transform bulletSpawnPoint;
+        public GameObject bulletPrefab;
+        public float bulletSpeed = 10;
+        public float ShootDelay;
+        public bool can_shoot;
+
+
+public class Gun : MonoBehaviour
+{
+    public Transform bulletSpawnPoint;
+    public GameObject bulletPrefab;
+    public float bulletSpeed = 10;
+ 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
+        }
+    }
+}
+
         public bool isRunning;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
         private PlayerInput _playerInput;
@@ -149,7 +174,7 @@ namespace StarterAssets
         private void Start()
         {
 
-
+            can_shoot = true;
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -186,9 +211,13 @@ namespace StarterAssets
             {
                 _animator.SetBool("Aiming", true);
 
-                if(_input.Shoot)
+                if(_input.Shoot && can_shoot)
                 {
+                    can_shoot = false;
                     _animator.SetBool("Shooting", true);
+                    var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+                    bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
+                    StartCoroutine(shootDelay());
                 }
                 else
                 {
@@ -483,10 +512,18 @@ namespace StarterAssets
             }
         }
 
+        private IEnumerator shootDelay()
+        {
+            yield return new WaitForSeconds(ShootDelay);
+            can_shoot = true;
+        }
+
 
     
 
     }
+
+    
 
 
 
