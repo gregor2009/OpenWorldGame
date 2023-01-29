@@ -1,22 +1,21 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class sword : MonoBehaviour
+public class swoard : MonoBehaviour
 {
 
-    public float damage;
-
-   
-    // Start is called before the first frame update
-    void Start()
+    void OnTriggerEnter(Collider other)
     {
-        
-    }
+        print("hit");
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(other.tag == "enemy")
+        {
+            print("hit2");
+            Destroy(other.gameObject);
+            
+        }
+
+
     }
 }

@@ -5417,7 +5417,7 @@ GameObject:
   - component: {fileID: 2438394149478145449}
   - component: {fileID: 8590271436813551571}
   - component: {fileID: 8590271436813551566}
-  - component: {fileID: 8590271436813551565}
+  - component: {fileID: 7814837643877908505}
   - component: {fileID: 3070674446503724825}
   - component: {fileID: 3070674446503724824}
   - component: {fileID: 5079309943107136995}
@@ -5482,24 +5482,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8590271436813551571}
   isBlocking: 0
---- !u!114 &8590271436813551565
+--- !u!114 &7814837643877908505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3070674446503724819}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e09ee16d2884676a15e389130b94f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 20a3e7df907c74a8fa9304f89c71161b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   aimVirtualCamera: {fileID: 0}
-  normalSensitivity: 1
-  aimSensitivity: 0.5
-  aimColliderLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
 --- !u!143 &3070674446503724825
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5564,6 +5559,7 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   isRunning: 0
+  isWalking: 0
 --- !u!114 &5079309943107136995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5598,9 +5594,10 @@ MonoBehaviour:
   jump: 0
   sprint: 0
   block: 0
-  aim: 0
   roll: 0
   attack: 0
+  Aiming: 0
+  Shoot: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1

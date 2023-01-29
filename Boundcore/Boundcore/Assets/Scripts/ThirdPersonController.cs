@@ -35,6 +35,7 @@ namespace StarterAssets
         public float SpeedChangeRate = 10.0f;
         public float Sensitivity = 1f;
 
+
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
@@ -186,7 +187,7 @@ namespace StarterAssets
             {
                 _animator.SetBool("Aiming", true);
 
-                if(_input.Shoot)
+                if(_input.shoot)
                 {
                     _animator.SetBool("Shooting", true);
                 }
@@ -245,7 +246,7 @@ namespace StarterAssets
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
                 _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * Sensitivity;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier *Sensitivity;
+                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * Sensitivity;
             }
 
             // clamp our rotations so our values are limited 360 degrees
@@ -336,7 +337,10 @@ namespace StarterAssets
                     RotationSmoothTime);
 
                 // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                if (_rotateOnMove)
+                {
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                }
             }
 
 
@@ -453,11 +457,6 @@ namespace StarterAssets
                 GroundedRadius);
         }
 
-        public void SetSensitivity(float newSensitivity)
-        {
-            Sensitivity = newSensitivity;
-        }
-
         public void SetRotateOnMove(bool newRotateOnMove)
         {
             _rotateOnMove = newRotateOnMove;
@@ -484,11 +483,12 @@ namespace StarterAssets
         }
 
 
-    
+
+        public void SetSensitivity(float newSensitivity)
+        {
+            Sensitivity = newSensitivity;
+        }
 
     }
-
-
-
-   
+  
 }

@@ -9,8 +9,6 @@ public class enemy : MonoBehaviour
 
     public bool hitDealay;
 
-    public sword SS;
-
     public Slider healthbar;
 
     public Animator anim;

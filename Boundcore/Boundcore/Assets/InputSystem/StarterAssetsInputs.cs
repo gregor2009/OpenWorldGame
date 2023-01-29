@@ -12,11 +12,12 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
+		public bool aim;
 		public bool block;
 		public bool roll;
 		public bool attack;
 		public bool Aiming;
-		public bool Shoot;
+		public bool shoot;
 
 
 		[Header("Movement Settings")]
@@ -50,7 +51,12 @@ namespace StarterAssets
 			SprintInput(value.isPressed);
 		}
 
-		public void OnBlock(InputValue value)
+        public void OnAim(InputValue value)
+        {
+            AimInput(value.isPressed);
+        }
+
+        public void OnBlock(InputValue value)
 		{
 			BlockInput(value.isPressed);
 		}
@@ -111,12 +117,12 @@ namespace StarterAssets
 		}
 		public void AimInput(bool newAimState)
 		{
-			Aiming = newAimState;
+			aim = newAimState;
 		}
 
-        public void ShootInput(bool newAimState)
+        public void ShootInput(bool newShootState)
         {
-            Shoot = newAimState;
+            shoot = newShootState;
         }
 
 
