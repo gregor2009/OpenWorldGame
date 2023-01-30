@@ -76,7 +76,7 @@ public class enemy : MonoBehaviour
     {
         agent.enabled = false;
         Healthbar.SetActive(false);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
         Destroy(gameObject);
         
 
