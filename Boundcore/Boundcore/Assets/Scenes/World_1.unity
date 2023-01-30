@@ -2050,6 +2050,16 @@ PrefabInstance:
       propertyPath: walkPointRange
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2937574208176449259, guid: d57892d80ae804f128e00ff5cb60392b,
+        type: 3}
+      propertyPath: Es
+      value: 
+      objectReference: {fileID: 767181226}
+    - target: {fileID: 2937574208176449259, guid: d57892d80ae804f128e00ff5cb60392b,
+        type: 3}
+      propertyPath: Healthbar
+      value: 
+      objectReference: {fileID: 1695139676}
     - target: {fileID: 2941856229764838578, guid: d57892d80ae804f128e00ff5cb60392b,
         type: 3}
       propertyPath: m_Name
@@ -2089,6 +2099,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3837ba84233174bfcb9c479692c93a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &767181226 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2937574208176449258, guid: d57892d80ae804f128e00ff5cb60392b,
+    type: 3}
+  m_PrefabInstance: {fileID: 742608142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d313f7579ee4af6b5b96a25ae14dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &790083455
@@ -3247,6 +3269,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1695139676 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7592032390054484316, guid: d57892d80ae804f128e00ff5cb60392b,
+    type: 3}
+  m_PrefabInstance: {fileID: 742608142}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1722142304 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3836581064361698930, guid: a524090786e7ba545bd5ce3d24c9a3fb,

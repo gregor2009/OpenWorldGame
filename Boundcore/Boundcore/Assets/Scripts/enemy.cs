@@ -17,6 +17,8 @@ public class enemy : MonoBehaviour
 
     public bool isDeath;
 
+    public GameObject Healthbar;
+
   
 
     public EnemyAiTutorial script;
@@ -70,7 +72,7 @@ public class enemy : MonoBehaviour
 
     private IEnumerator death()
     {
-
+        Healthbar.SetActive(false);
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
         
