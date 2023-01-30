@@ -19,6 +19,8 @@ public class enemy : MonoBehaviour
 
     public GameObject Healthbar;
 
+    public UnityEngine.AI.NavMeshAgent agent;
+
   
 
     public EnemyAiTutorial script;
@@ -64,7 +66,7 @@ public class enemy : MonoBehaviour
     {
         hitDealay = false;
         health = health - 1;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         hitDealay = true;
        
 
@@ -72,6 +74,7 @@ public class enemy : MonoBehaviour
 
     private IEnumerator death()
     {
+        agent.enabled = false;
         Healthbar.SetActive(false);
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
