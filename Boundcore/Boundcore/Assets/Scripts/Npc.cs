@@ -30,6 +30,11 @@ public class Npc : MonoBehaviour
     public float LookSpeed;
     public bool Go;
 
+//Angry
+    public float playerNear;
+    public bool angrySightRange;
+    public bool go;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,8 +56,9 @@ public class Npc : MonoBehaviour
         }     
 
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        angrySightRange = Physics.CheckSphere(transform.position, playerNear, whatIsPlayer);
 
-        if(playerInSightRange)
+        if(playerInSightRange && !angrySightRange)
         {
             Go = true;
             agent.enabled = false;
@@ -76,6 +82,34 @@ public class Npc : MonoBehaviour
             }
             
         } 
+
+        if(angrySightRange)
+        {
+            go = true;
+            agent.enabled = false;
+
+            anim.SetBool("isWalking", false);
+            anim.SetBool("isWaving", false);
+            anim.SetBool("isAngry", true);
+                
+            Vector3 direction = target.position - transform.position;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, LookSpeed * Time.deltaTime);
+
+        }
+
+        if(!angrySightRange)
+        {
+            agent.enabled = true;
+            anim.SetBool("isAngry", false);
+
+            if(go)
+            {
+                go = false;
+                StartCoroutine(Waiting());
+            }
+
+        }
     }
 
     public void Walking()
