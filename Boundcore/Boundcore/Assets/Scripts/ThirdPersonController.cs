@@ -117,6 +117,10 @@ namespace StarterAssets
         public bool can_shoot;
 
 
+        public GameObject AimCamera;
+        public GameObject Camera;
+
+
 public class Gun : MonoBehaviour
 {
     public Transform bulletSpawnPoint;
@@ -209,7 +213,7 @@ public class Gun : MonoBehaviour
         {
             if (_input.Aiming && !_input.sprint && Grounded && ! isWalking) //Vielleicht Grounded Abfrage hinzugeben
             {
-                   Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+                Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                 _mainCamera.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
@@ -218,14 +222,18 @@ public class Gun : MonoBehaviour
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 _animator.SetBool("Aiming", true);
+                AimCamera.SetActive(true);
+                Camera.SetActive(false);
 
                 if(_input.Shoot && can_shoot)
                 {
+
                     can_shoot = false;
                     _animator.SetBool("Shooting", true);
                     var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
                     bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
                     StartCoroutine(shootDelay());
+                    
                 }
                 else
                 {
@@ -237,6 +245,8 @@ public class Gun : MonoBehaviour
             {
                 _animator.SetBool("Aiming", false);
                 _animator.SetBool("Shooting", false);
+                AimCamera.SetActive(false);
+                Camera.SetActive(true);
             }
         }
 
