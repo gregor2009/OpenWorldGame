@@ -116,10 +116,13 @@ namespace StarterAssets
         public float ShootDelay;
         public bool can_shoot;
 
-
+        //Cameras
         public GameObject AimCamera;
         public GameObject Camera;
 
+        //Weapons
+        public GameObject bow;
+        public GameObject sword;
 
 public class Gun : MonoBehaviour
 {
@@ -211,8 +214,13 @@ public class Gun : MonoBehaviour
 
         private void AimShoot()
         {
+
+ 
+
             if (_input.Aiming && !_input.sprint && Grounded && ! isWalking) //Vielleicht Grounded Abfrage hinzugeben
             {
+                sword.SetActive(false);
+                bow.SetActive(true);
                 Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                 _mainCamera.transform.eulerAngles.y;
@@ -306,8 +314,12 @@ public class Gun : MonoBehaviour
 
         private void Attack()
         {
+
+
             if (_input.attack)
             {
+                sword.SetActive(true);
+                bow.SetActive(false);
                 _animator.SetBool(_animIDAttack, true);
                 isRunning = false;
             }
@@ -319,8 +331,11 @@ public class Gun : MonoBehaviour
 
         private void Roll()
         {
+
             if (_input.roll)
             {
+                sword.SetActive(true);
+                bow.SetActive(false);
                 _animator.SetBool(_animIDRoll, true);
             }
             else
@@ -376,7 +391,8 @@ public class Gun : MonoBehaviour
             // if there is a move input rotate player when the player is moving
             if (_input.move != Vector2.zero)
             {
-               
+                sword.SetActive(true);
+                bow.SetActive(false);
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,

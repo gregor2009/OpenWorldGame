@@ -9,7 +9,7 @@ public class enemy : MonoBehaviour
 
     public bool hitDealay;
 
-    public sword SS;
+    public EnemyAiTutorial Es;
 
     public Slider healthbar;
 
@@ -70,7 +70,10 @@ public class enemy : MonoBehaviour
 
     private IEnumerator death()
     {
+
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
+        
+
     }
 }
