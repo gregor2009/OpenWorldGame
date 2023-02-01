@@ -35,10 +35,15 @@ public class Npc : MonoBehaviour
     public bool angrySightRange;
     public bool go;
 
+//Trade
+    public GameObject TradeScreen; 
+    public GameObject PressE;
+    public bool CanExit;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        CanExit = false;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponent<Animator>();
         Walking();
@@ -58,8 +63,29 @@ public class Npc : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         angrySightRange = Physics.CheckSphere(transform.position, playerNear, whatIsPlayer);
 
+        if(playerInSightRange)
+        {
+            if(Input.GetButtonDown("e") && !CanExit)
+            {
+                TradeScreen.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                StartCoroutine(canExit());
+            }
+
+            if(CanExit && Input.GetButtonDown("e"))
+            {
+                CanExit = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                TradeScreen.SetActive(false);
+            }
+
+            PressE.SetActive(true);
+        }
+
         if(playerInSightRange && !angrySightRange)
         {
+
+
             Go = true;
             agent.enabled = false;
             anim.SetBool("isWalking", false);
@@ -72,6 +98,10 @@ public class Npc : MonoBehaviour
 
         if(!playerInSightRange)
         {
+            PressE.SetActive(false);
+            CanExit = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            TradeScreen.SetActive(false);
             agent.enabled = true;
             anim.SetBool("isWaving", false);
 
@@ -139,6 +169,12 @@ public class Npc : MonoBehaviour
         waitTime = Random.Range(3f, 10f);
         yield return new WaitForSeconds(waitTime);
         Walking();
+    }
+
+    public IEnumerator canExit()
+    {
+        yield return new WaitForSeconds(0.1f);
+        CanExit = true;
     }
 
 

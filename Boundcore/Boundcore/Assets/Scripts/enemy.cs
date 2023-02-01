@@ -32,6 +32,7 @@ public class enemy : MonoBehaviour
         if (other.tag == "sword")
         {
             if(hitDealay )
+                Healthbar.SetActive(true);
                 print("hit2");
                 hitDealay = true;
                 StartCoroutine(getHit());
@@ -47,6 +48,8 @@ public class enemy : MonoBehaviour
         anim.GetComponent<Animator>();
 
         isDeath = false;
+
+        Healthbar.SetActive(false);
 
     }
 
