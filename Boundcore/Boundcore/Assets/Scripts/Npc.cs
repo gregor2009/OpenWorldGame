@@ -67,7 +67,7 @@ public class Npc : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         angrySightRange = Physics.CheckSphere(transform.position, playerNear, whatIsPlayer);
 
-        if(playerInSightRange && !angrySightRange && !checkPlayerToLook.isLooking && !Input.GetKey("mouse 1") )
+        if(playerInSightRange && !angrySightRange && !checkPlayerToLook.isLooking && !Input.GetKey("mouse 1") && !runAway)
         {
             Go = true;
             agent.enabled = false;
@@ -92,7 +92,7 @@ public class Npc : MonoBehaviour
             
         } 
 
-        if(angrySightRange && !checkPlayerToLook.isLooking  && !Input.GetKey("mouse 1"))
+        if(angrySightRange && !checkPlayerToLook.isLooking  && !Input.GetKey("mouse 1") && !runAway)
         {
             go = true;
             agent.enabled = false;
@@ -107,7 +107,7 @@ public class Npc : MonoBehaviour
 
         }
 
-        if(!angrySightRange)
+        if(!angrySightRange && !runAway)
         {
             agent.enabled = true;
             anim.SetBool("isAngry", false);
@@ -119,15 +119,18 @@ public class Npc : MonoBehaviour
             }
 
         }
-
+//Run away
         if(playerInSightRange && checkPlayerToLook.isLooking && Input.GetKey("mouse 1") )
         {
-            agent.speed = 3;
+            //change speed
+            agent.speed = 4;
 
-            randomZ = Random.Range(5, 15);
-            randomX = Random.Range(5, 15); 
+            //set a point
+            randomZ = Random.Range(10, 15);
+            randomX = Random.Range(10, 15); 
             walkPoint = new Vector3(transform.position.x + randomX, high , transform.position.z + randomZ);
 
+            //run to point
             agent.SetDestination(walkPoint);
             anim.SetBool("isWalking", false);
             anim.SetBool("isAngry", false);
