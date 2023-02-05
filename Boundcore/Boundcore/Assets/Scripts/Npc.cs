@@ -123,11 +123,11 @@ public class Npc : MonoBehaviour
         if(playerInSightRange && checkPlayerToLook.isLooking && Input.GetKey("mouse 1") )
         {
             //change speed
-            agent.speed = 4;
+            agent.speed = 5;
 
             //set a point
-            randomZ = Random.Range(10, 15);
-            randomX = Random.Range(10, 15); 
+            randomZ = Random.Range(15, 25);
+            randomX = Random.Range(15, 25); 
             walkPoint = new Vector3(transform.position.x + randomX, high , transform.position.z + randomZ);
 
             //run to point
