@@ -124,6 +124,8 @@ namespace StarterAssets
         public GameObject bow;
         public GameObject sword;
 
+  
+
 public class Gun : MonoBehaviour
 {
     public Transform bulletSpawnPoint;
@@ -137,6 +139,8 @@ public class Gun : MonoBehaviour
             var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
         }
+
+
     }
 }
 
