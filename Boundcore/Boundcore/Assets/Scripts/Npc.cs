@@ -56,7 +56,7 @@ public class Npc : MonoBehaviour
 
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponent<Animator>();
-        Walking();
+        StartCoroutine(Waiting());
         boxing = false;
         runAway = false;
         isDeath = false;

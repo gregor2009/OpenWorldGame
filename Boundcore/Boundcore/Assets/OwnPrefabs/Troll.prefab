@@ -1594,10 +1594,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 11
   hitDealay: 0
-  SS: {fileID: 0}
+  Es: {fileID: 0}
   healthbar: {fileID: 0}
   anim: {fileID: 0}
   isDeath: 0
+  Healthbar: {fileID: 0}
+  agent: {fileID: 0}
   script: {fileID: 0}
 --- !u!1 &2941182682638193094
 GameObject:
@@ -3017,10 +3019,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 12
   hitDealay: 0
-  SS: {fileID: 0}
+  Es: {fileID: 2937574208176449258}
   healthbar: {fileID: 7592032390054484291}
   anim: {fileID: 2992523288066610810}
   isDeath: 0
+  Healthbar: {fileID: 7592032390054484316}
+  agent: {fileID: 2937574208176449257}
   script: {fileID: 2937574208176449258}
 --- !u!195 &2937574208176449257
 NavMeshAgent:
@@ -3066,7 +3070,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   health: 1
-  e: {fileID: 0}
+  e: {fileID: 2937574208176449259}
+  target: {fileID: 0}
+  LookSpeed: 0
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointSet: 0
   walkPointRange: 7
