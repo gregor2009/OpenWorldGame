@@ -9,7 +9,7 @@ public class Npc : MonoBehaviour
 
     public float randomX;
     public float randomZ;
-    
+    public Transform player;
 
     
     public UnityEngine.AI.NavMeshAgent agent;
@@ -41,6 +41,15 @@ public class Npc : MonoBehaviour
     public CheckPlayerToLook checkPlayerToLook;
     public bool runAway;
 
+//decision
+    public float decision;
+//attack
+   
+    public bool boxing;
+
+//death
+    public bool isDeath;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,13 +57,21 @@ public class Npc : MonoBehaviour
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponent<Animator>();
         Walking();
+        boxing = false;
+        runAway = false;
+        isDeath = false;
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(transform.position == walkPoint)
+        if(isDeath)
+        {
+            agent.enabled = false;
+        }
+
+        if(transform.position == walkPoint && !boxing && !isDeath)
         {
             anim.SetBool("isWalking", false);
             anim.SetBool("isRunning",false);
@@ -64,10 +81,15 @@ public class Npc : MonoBehaviour
              runAway = false;
         }     
 
+        if(boxing && !isDeath)
+        {
+            agent.SetDestination(player.position);
+        }
+
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         angrySightRange = Physics.CheckSphere(transform.position, playerNear, whatIsPlayer);
 
-        if(playerInSightRange && !angrySightRange && !checkPlayerToLook.isLooking && !Input.GetKey("mouse 1") && !runAway)
+        if(playerInSightRange && !angrySightRange && !checkPlayerToLook.isLooking && !Input.GetKey("mouse 1") && !runAway && !boxing && !isDeath)
         {
             Go = true;
             agent.enabled = false;
@@ -79,7 +101,7 @@ public class Npc : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, LookSpeed * Time.deltaTime);
         }  
 
-        if(!playerInSightRange && !runAway )
+        if(!playerInSightRange && !runAway && !boxing && !isDeath)
         {
             agent.enabled = true;
             anim.SetBool("isWaving", false);
@@ -92,7 +114,7 @@ public class Npc : MonoBehaviour
             
         } 
 
-        if(angrySightRange && !checkPlayerToLook.isLooking  && !Input.GetKey("mouse 1") && !runAway)
+        if(angrySightRange && !runAway && !boxing && !isDeath)
         {
             go = true;
             agent.enabled = false;
@@ -107,7 +129,7 @@ public class Npc : MonoBehaviour
 
         }
 
-        if(!angrySightRange && !runAway)
+        if(!angrySightRange && !runAway && !boxing && !isDeath)
         {
             agent.enabled = true;
             anim.SetBool("isAngry", false);
@@ -119,25 +141,40 @@ public class Npc : MonoBehaviour
             }
 
         }
-//Run away
-        if(playerInSightRange && checkPlayerToLook.isLooking && Input.GetKey("mouse 1") )
+
+        if(!angrySightRange && boxing && !isDeath)
         {
-            //change speed
-            agent.speed = 5;
-
-            //set a point
-            randomZ = Random.Range(15, 25);
-            randomX = Random.Range(15, 25); 
-            walkPoint = new Vector3(transform.position.x + randomX, high , transform.position.z + randomZ);
-
-            //run to point
-            agent.SetDestination(walkPoint);
-            anim.SetBool("isWalking", false);
-            anim.SetBool("isAngry", false);
-            anim.SetBool("isWaving", false);
+            anim.SetBool("isBoxing", false);
             anim.SetBool("isRunning", true);
+            agent.enabled = true;
+        }
 
-            runAway = true;
+        if(angrySightRange && boxing && !isDeath)
+        {
+            anim.SetBool("isBoxing", true);
+            anim.SetBool("isRunning", false);
+            agent.enabled = false;
+
+        }
+
+//Run away
+        if(playerInSightRange && checkPlayerToLook.isLooking && Input.GetKey("mouse 1") && !runAway && !boxing && !isDeath)
+        {
+            decision = Random.Range(1f, 2f);
+
+            if(decision < 1.5f)
+            {
+                RunAway();
+                decision = 0f;
+            }
+
+            if(decision > 1.5f)
+            {
+                Attack();
+                print("attack");
+                decision = 0f;
+            }
+            
         }
         
     }
@@ -157,14 +194,55 @@ public class Npc : MonoBehaviour
         }
     }
 
+    public void RunAway()
+    {
+        //change speed
+        agent.speed = 7f;
+    
+        //set a point
+        randomZ = Random.Range(15f, 25f);
+        randomX = Random.Range(15f, 25f); 
+        walkPoint = new Vector3(transform.position.x + randomX, high , transform.position.z + randomZ);
+
+        //run to point
+        
+        anim.SetBool("isWalking", false);
+        anim.SetBool("isAngry", false);
+        anim.SetBool("isWaving", false);
+        anim.SetBool("isRunning", true);
+
+        agent.SetDestination(walkPoint);
+        runAway = true;
+
+       
+    }
+
+    public void Attack()
+    {
+        agent.speed = 5;
+        print("attack");
+        
+        Vector3 direction = target.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, LookSpeed * Time.deltaTime);    
+        anim.SetBool("isWalking", false);
+        anim.SetBool("isAngry", false);
+        anim.SetBool("isWaving", false);
+        anim.SetBool("isRunning", false);
+        //anim.SetBool("isBoxing", true);
+        
+
+        boxing = true;
+    }
+
 
 
     public IEnumerator Waiting()
     {
         if(!checkPlayerToLook.isLooking && !Input.GetKey("mouse 1"))
         {
-            randomZ = Random.Range(-walkPointRange, walkPointRange);
-            randomX = Random.Range(-walkPointRange, walkPointRange); 
+            randomZ = Random.Range(30, walkPointRange);
+            randomX = Random.Range(30, walkPointRange); 
             walkPoint = new Vector3(transform.position.x + randomX, high , transform.position.z + randomZ);
 
             anim.SetBool("isWalking", false);
@@ -175,6 +253,15 @@ public class Npc : MonoBehaviour
 
     }
 
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "sword")
+        {
+            isDeath = true;
+            anim.SetBool("isDeath", true);
+        }
+    }
 
 
 

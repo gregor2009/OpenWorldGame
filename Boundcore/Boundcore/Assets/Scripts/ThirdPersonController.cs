@@ -221,7 +221,7 @@ public class Gun : MonoBehaviour
 
  
 
-            if (_input.Aiming && !_input.sprint && Grounded && ! isWalking) //Vielleicht Grounded Abfrage hinzugeben
+            if (_input.Aiming ) //Vielleicht Grounded Abfrage hinzugeben
             {
                 sword.SetActive(false);
                 bow.SetActive(true);
