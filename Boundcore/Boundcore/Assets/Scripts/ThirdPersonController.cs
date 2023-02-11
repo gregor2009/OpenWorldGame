@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using StarterAssets;
-using UnityEngine.Windows;
+//using UnityEngine.Windows;
+
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -108,6 +109,41 @@ namespace StarterAssets
         private int _animIDBlock;
         private int _animIDAttack;
 
+        //Shoot
+        public Transform bulletSpawnPoint;
+        public GameObject bulletPrefab;
+        public float bulletSpeed = 10;
+        public float ShootDelay;
+        public bool can_shoot;
+
+        //Cameras
+        public GameObject AimCamera;
+        public GameObject Camera;
+
+        //Weapons
+        public GameObject bow;
+        public GameObject sword;
+
+  
+
+public class Gun : MonoBehaviour
+{
+    public Transform bulletSpawnPoint;
+    public GameObject bulletPrefab;
+    public float bulletSpeed = 10;
+ 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
+        }
+
+
+    }
+}
+
         public bool isRunning;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
         private PlayerInput _playerInput;
@@ -149,7 +185,7 @@ namespace StarterAssets
         private void Start()
         {
 
-
+            can_shoot = true;
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -182,13 +218,34 @@ namespace StarterAssets
 
         private void AimShoot()
         {
-            if (_input.Aiming && !_input.sprint && Grounded && ! isWalking) //Vielleicht Grounded Abfrage hinzugeben
-            {
-                _animator.SetBool("Aiming", true);
 
-                if(_input.Shoot)
+ 
+
+            if (_input.Aiming ) //Vielleicht Grounded Abfrage hinzugeben
+            {
+                sword.SetActive(false);
+                bow.SetActive(true);
+                Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
+                _mainCamera.transform.eulerAngles.y;
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                RotationSmoothTime);
+
+                // rotate to face input direction relative to camera position
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                _animator.SetBool("Aiming", true);
+                AimCamera.SetActive(true);
+                Camera.SetActive(false);
+
+                if(_input.Shoot && can_shoot)
                 {
+
+                    can_shoot = false;
                     _animator.SetBool("Shooting", true);
+                    var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+                    bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
+                    StartCoroutine(shootDelay());
+                    
                 }
                 else
                 {
@@ -200,6 +257,8 @@ namespace StarterAssets
             {
                 _animator.SetBool("Aiming", false);
                 _animator.SetBool("Shooting", false);
+                AimCamera.SetActive(false);
+                Camera.SetActive(true);
             }
         }
 
@@ -259,8 +318,12 @@ namespace StarterAssets
 
         private void Attack()
         {
+
+
             if (_input.attack)
             {
+                sword.SetActive(true);
+                bow.SetActive(false);
                 _animator.SetBool(_animIDAttack, true);
                 isRunning = false;
             }
@@ -272,8 +335,11 @@ namespace StarterAssets
 
         private void Roll()
         {
+
             if (_input.roll)
             {
+                sword.SetActive(true);
+                bow.SetActive(false);
                 _animator.SetBool(_animIDRoll, true);
             }
             else
@@ -329,7 +395,8 @@ namespace StarterAssets
             // if there is a move input rotate player when the player is moving
             if (_input.move != Vector2.zero)
             {
-               
+                sword.SetActive(true);
+                bow.SetActive(false);
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
@@ -483,10 +550,18 @@ namespace StarterAssets
             }
         }
 
+        private IEnumerator shootDelay()
+        {
+            yield return new WaitForSeconds(ShootDelay);
+            can_shoot = true;
+        }
+
 
     
 
     }
+
+    
 
 
 

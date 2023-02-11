@@ -9,13 +9,17 @@ public class enemy : MonoBehaviour
 
     public bool hitDealay;
 
-    public sword SS;
+    public EnemyAiTutorial Es;
 
     public Slider healthbar;
 
     public Animator anim;
 
     public bool isDeath;
+
+    public GameObject Healthbar;
+
+    public UnityEngine.AI.NavMeshAgent agent;
 
   
 
@@ -62,7 +66,7 @@ public class enemy : MonoBehaviour
     {
         hitDealay = false;
         health = health - 1;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         hitDealay = true;
        
 
@@ -70,7 +74,11 @@ public class enemy : MonoBehaviour
 
     private IEnumerator death()
     {
-        yield return new WaitForSeconds(3f);
+        agent.enabled = false;
+        Healthbar.SetActive(false);
+        yield return new WaitForSeconds(4f);
         Destroy(gameObject);
+        
+
     }
 }
