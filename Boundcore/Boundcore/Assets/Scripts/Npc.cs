@@ -69,6 +69,7 @@ public class Npc : MonoBehaviour
         if(isDeath)
         {
             agent.enabled = false;
+            anim.SetBool("isAngry", false);
         }
 
         if(transform.position == walkPoint && !boxing && !isDeath)
@@ -89,7 +90,7 @@ public class Npc : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         angrySightRange = Physics.CheckSphere(transform.position, playerNear, whatIsPlayer);
 
-        if(playerInSightRange && !angrySightRange && !checkPlayerToLook.isLooking && !Input.GetKey("mouse 1") && !runAway && !boxing && !isDeath)
+        if(playerInSightRange && !angrySightRange && !checkPlayerToLook.isLooking && !Input.GetButton("Fire1") && !runAway && !boxing && !isDeath)
         {
             Go = true;
             agent.enabled = false;
@@ -142,7 +143,7 @@ public class Npc : MonoBehaviour
 
         }
 
-        if(!angrySightRange && boxing && !isDeath)
+        if(!angrySightRange && boxing )
         {
             anim.SetBool("isBoxing", false);
             anim.SetBool("isRunning", true);
