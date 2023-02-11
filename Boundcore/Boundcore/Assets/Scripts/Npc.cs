@@ -158,7 +158,7 @@ public class Npc : MonoBehaviour
         }
 
 //Run away
-        if(playerInSightRange && checkPlayerToLook.isLooking && Input.GetKey("mouse 1") && !runAway && !boxing && !isDeath)
+        if(playerInSightRange && checkPlayerToLook.isLooking && Input.GetButton("Fire1") && !runAway && !boxing && !isDeath)
         {
             decision = Random.Range(1f, 2f);
 
